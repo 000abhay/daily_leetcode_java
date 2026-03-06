@@ -7,7 +7,7 @@ class Solution {
         }
         else b1=false;
        
-        for(int i=0;i<l;i++)
+        for(int i=1;i<l;i++)
         {
             if(b2&&s.charAt(i)=='1'&&!b1)
             {
