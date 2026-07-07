@@ -11,8 +11,7 @@ class Solution {
             i*=10;
             
         }
-        // String s=Integer.toString(store);
-        // store=Integer.parseInt(new StringBuilder(s).reverse().toString());
+       
         return (long) store*sum;
 
     }
