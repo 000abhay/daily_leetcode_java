@@ -4,12 +4,12 @@ class Solution {
         while(n>0)
         {
             int x=n%10;
-            if(x!=0){
+            n/=10;
+            if(x==0) continue;
             sum+=x;
             store+=(x*i);
             i*=10;
-            }
-            n/=10;
+            
         }
         // String s=Integer.toString(store);
         // store=Integer.parseInt(new StringBuilder(s).reverse().toString());
