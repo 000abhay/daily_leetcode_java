@@ -1,39 +1,22 @@
 class Solution {
-    int fun(int [] nums, int l, int r,int total,boolean flag)
+    int fun(int [] nums, int l, int r)
     {
-        if(l>r)  return total;
-       int ans=0;
-       if(flag){
-           int a=fun(nums,l+1,r,total+nums[l],!flag);
-           int b=fun(nums,l,r-1,total+nums[r],!flag);
-           ans=Math.max(a,b);
-        
+       if(l>r) return 0;
+       if(l==r) return nums[l];
 
-       }
-       else
-       {
-         int c=fun(nums,l+1, r,total, !flag);
-         int d=fun(nums,l,r-1,total,!flag);
-         ans=Math.min(c,d);
-       }
-        return ans;
+       int take_l=nums[l]+Math.min(fun(nums,l+2,r),fun(nums,l+1,r-1));
+       int take_r=nums[r]+Math.min(fun(nums,l+1,r-1),fun(nums,l,r-2));
 
+     return Math.max(take_l,take_r);
 
     }
     public boolean predictTheWinner(int[] nums) {
         int total=Arrays.stream(nums).sum();
-        int x=fun(nums,0,nums.length-1,0,true);
-
+        int p1=fun(nums,0,nums.length-1);
+        int p2=total-p1;
+         return p1>=p2;
 
         
-        if(total%2==0)
-        {
-            if(x>=(total/2))  return true;
-             return false;
-
-        }
-         total=(total/2) +1;
-         if(x>=(total)) return true;
-         return false;
+       
     }
 }
