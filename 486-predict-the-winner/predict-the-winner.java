@@ -23,6 +23,9 @@ class Solution {
     public boolean predictTheWinner(int[] nums) {
         int total=Arrays.stream(nums).sum();
         int x=fun(nums,0,nums.length-1,0,true);
+
+
+        
         if(total%2==0)
         {
             if(x>=(total/2))  return true;
