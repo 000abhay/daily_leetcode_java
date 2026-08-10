@@ -1,81 +1,55 @@
 class Solution {
-
-    int[][] memo;
-
-    void fun(List<Integer> store, int n) {
-        for (int i = 1; i * i <= n; i++) {
-            store.add(i * i);
-        }
-    }
-
-    boolean top_down(List<Integer> store, int n, boolean flag) {
-
-        int turn = flag ? 1 : 0;
-
-        // Already calculated
-        if (memo[n][turn] != -1) {
-            return memo[n][turn] == 1;
-        }
-
-        // No stones left
-        if (n == 0) {
-            memo[n][turn] = flag ? 0 : 1;
-            return flag ? false : true;
-        }
-
-        // Alice's turn
-        if (flag) {
-
-            for (int x : store) {
-
-                if (x > n)
-                    break;
-
-                // Alice wants to find ONE move that makes her win
-                if (top_down(store, n - x, false)) {
-                    memo[n][turn] = 1;
-                    return true;
-                }
-            }
-
-            // Alice couldn't find a winning move
-            memo[n][turn] = 0;
-            return false;
-        }
-
-        // Bob's turn
-        else {
-
-            for (int x : store) {
-
-                if (x > n)
-                    break;
-
-                // Bob wants to find ONE move that makes Alice lose
-                if (!top_down(store, n - x, true)) {
-                    memo[n][turn] = 0;
-                    return false;
-                }
-            }
-
-            // Bob couldn't make Alice lose
-            memo[n][turn] = 1;
-            return true;
-        }
-    }
-
     public boolean winnerSquareGame(int n) {
+        boolean [][]dp= new boolean[n+1][2];
+          dp[0][0]=true;
+          dp[0][1]=false;
 
-        memo = new int[n + 1][2];
+          List<Integer>store= new ArrayList<>();
+          for(int i=1;i<=n;i++)
+          {
+             int a=i*i;
+             if(a>n) break;
 
-        for (int i = 0; i <= n; i++) {
-            Arrays.fill(memo[i], -1);
+             store.add(a);
+          }
+        
+        for(int i=1;i<=n;i++)
+        {
+            boolean b1=true,b2=true;
+            for(int x:store)
+            {
+                if(x>i) break;
+                if(dp[i-x][1]==false&&b1)
+                {
+                    //  System.out.print("df");
+                    b1=false;
+                    dp[i][0]=false;
+                }
+
+                if(dp[i-x][0]==true&&b2)
+                {
+                    b2=false;
+                    dp[i][1]=true;
+                }
+
+                if(!b1 || !b2) break;
+                
+            }
+            if(b1)
+            {
+              //  System.out.print("df");
+                dp[i][0]=true;
+            }
+            if(b2)
+            {
+                dp[i][1]=false;
+            }
         }
 
-        List<Integer> store = new ArrayList<>();
-
-        fun(store, n);
-
-        return top_down(store, n, true);
+          for(int i=0;i<=n;i++)
+          {
+            System.out.println("bob: " + dp[i][0] + " Alice: " + dp[i][1]);
+          }
+          return  dp[n][1];
     }
 }
